@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekt #2</title>
-    <link rel="stylesheet" type="text/css" href="/style.css?<%=Time.now.to_i%>">
-</head>
-<body>
-  <h1>Bogdans Pizzeria</h1>
-  
-</body>
-</html>
+
+<div class="pizza-main">
+  <div class="pizza-item">
+    <img class="pizza-image" src="/img/peperoni.jpg" alt="Pepperoni pizza">
+    <h3>Pepperoni</h3>
+    <span class="price">$12.99</span>
+
+    <div class="purchase-bar">
+      <div class="qty-controls">
+        <button class="qty-btn" type="button">−</button>
+        <div class="qty">0</div>
+        <button class="qty-btn" type="button">+</button>
+      </div>
+
+      <button class="add-btn" type="button">Add</button>
+    </div>
+  </div>
+</div>
