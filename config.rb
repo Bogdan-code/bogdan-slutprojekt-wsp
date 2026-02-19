@@ -3,7 +3,7 @@ require 'sqlite3'
 
 ENV['RACK_ENV'] ||= 'development'
 
-DB_NAME   = 'sqlite.db'
+DB_NAME   = 'pizza.sqlite'
 DB_FOLDER = 'db'
 DB_PATH   = File.expand_path(File.join(__dir__, DB_FOLDER, DB_NAME))
 

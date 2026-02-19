@@ -1,6 +1,8 @@
 require_relative '../db'
 
 class Pizza
- def self.
+  def self.add_to_cart(userid, pizzaid)
+    
+  end
 
 end

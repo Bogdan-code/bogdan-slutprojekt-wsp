@@ -11,7 +11,7 @@ class User
 
   def self.find_by_username(username)
     DB.execute(
-      "SELECT * FROM users WHERE username=?",
+      "SELECT * FROM users WHERE name=?",
       username
     ).first
   end
@@ -20,7 +20,7 @@ class User
     encrypted = BCrypt::Password.create(password)
 
     DB.execute(
-      "INSERT INTO users (id, username, password)
+      "INSERT INTO users (id, name, password)
        VALUES (?,?,?)",
       ["#{username}_userid", username, encrypted]
     )
