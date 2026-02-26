@@ -1,9 +1,10 @@
 
 <div class="pizza-main">
+  <% @pizzas.each do |pizza|%>
   <div class="pizza-item">
-    <img class="pizza-image" src="/img/peperoni.jpg" alt="Pepperoni pizza">
-    <h3>Pepperoni</h3>
-    <span class="price">$12.99</span>
+    <img class="pizza-image" src="/img/<%=pizza("name")%>.jpg" alt="Pepperoni pizza">
+    <h3><%=pizza("name")%></h3>
+    <span class="price">$<%=pizza("price")%></span>
 
     <div class="purchase-bar">
       <div class="qty-controls">
@@ -15,4 +16,5 @@
       <button class="add-btn" type="button">Add</button>
     </div>
   </div>
+  <%end%>
 </div>

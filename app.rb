@@ -48,6 +48,7 @@ class App < Sinatra::Base
     end
 
     get '/main' do
+        @pizzas = Pizza.all()
         erb(:"/main/index")
     end
     get '/user/signup' do 
@@ -63,7 +64,7 @@ class App < Sinatra::Base
 
       redirect "/main"
     end
-    
+     
 
     get '/user/login' do 
       erb(:"user/login")
@@ -72,20 +73,18 @@ class App < Sinatra::Base
     post '/user/login' do
       user = User.find_by_username(params["username"])
       redirect "/user/login" unless user
-
-      if BCrypt::Password.new(user["password"]) == params["password"]
-        session[:user_id] = user["id"]
+      ap user
+      if BCrypt::Password.new(user["Password"]) == params["password"]
+        session[:user_id] = user["Id"]
         redirect "/"
       else
         redirect "/user/login"
       end
     end
 
-    get "/logout" do
-
+    get "/user/logout" do
       session.clear
       redirect('/')
-  
     end
 
 end

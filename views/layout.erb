@@ -13,11 +13,14 @@
   </header>
   <nav>
     <a href="/">Home</a>
+    <%if !@logged_in%>
     <a href="/user/login">LOGIN</a>
     <a href="/user/signup">SIGNUP</a>
+    <%else%>
     <a href="/user/logout">LOGOUT</a>
+        <a class="deleteuser" href="/deleteuser">DELETE USER</a>
+    <%end%>
   </nav>
-    <a class="deleteuser" href="/deleteuser">DELETE USER</a>
 
     <div class="content">
     <%= yield %>
