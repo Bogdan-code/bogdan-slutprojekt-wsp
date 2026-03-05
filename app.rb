@@ -35,6 +35,7 @@ class App < Sinatra::Base
 
     before do
       @logged_in = real_user_id?
+      @isadmin = session[:admin]
     end
     # Routen /
     get '/' do
@@ -74,17 +75,51 @@ class App < Sinatra::Base
       user = User.find_by_username(params["username"])
       redirect "/user/login" unless user
       ap user
-      if BCrypt::Password.new(user["Password"]) == params["password"]
-        session[:user_id] = user["Id"]
+      if params[:username] == "admin" && BCrypt::Password.new(user["password"]) == params["password"]
+        session[:admin] = true
+      end
+      if BCrypt::Password.new(user["password"]) == params["password"]
+        session[:user_id] = user["id"]
         redirect "/"
       else
         redirect "/user/login"
       end
+
     end
 
     get "/user/logout" do
       session.clear
       redirect('/')
     end
+
+    get "/deleteuser" do
+      User.delete(session[:user_id])
+      session.clear
+      redirect('/')
+    end
+
+    get "/main/create" do
+      erb(:"/main/create")
+    end
+
+    post "/main/create" do
+      Pizza.create(params["name"], params["price"], params["toppings"], params["picture"])
+      redirect "/main"
+    end
+
+    get "/pizza/:id/edit" do |id|
+      @pizza = Pizza.find(id)
+      erb(:"/main/edit")
+    end
+
+    post "/pizza/:id/edit" do |id|
+      Pizza.update(id, params["name"], params["price"], params["toppings"], params["picture"])
+      redirect "/index/#{id}"
+    end
+    get "/index/:id" do |id|
+      @pizza = Pizza.find(id)
+      erb(:"/main/show")
+    end
+
 
 end

@@ -2,19 +2,26 @@
 <div class="pizza-main">
   <% @pizzas.each do |pizza|%>
   <div class="pizza-item">
-    <img class="pizza-image" src="/img/<%=pizza("name")%>.jpg" alt="Pepperoni pizza">
-    <h3><%=pizza("name")%></h3>
-    <span class="price">$<%=pizza("price")%></span>
-
+    <img onclick="window.location.href='/index/<%=pizza["id"]%>'" class="pizza-image" src="/img/<%=pizza["name"]%>.jpg" alt="Pepperoni pizza">
+    <h3><a href="/index/<%=pizza["id"]%>"><%=pizza["name"]%></a></h3>
+    <span class="price">$<%=pizza["price"]%></span>
+    <%if @logged_in%>
     <div class="purchase-bar">
       <div class="qty-controls">
         <button class="qty-btn" type="button">−</button>
         <div class="qty">0</div>
         <button class="qty-btn" type="button">+</button>
       </div>
-
       <button class="add-btn" type="button">Add</button>
     </div>
-  </div>
+    <%end%>
+    </div>
   <%end%>
+    <%if @isadmin%>
+    <div onclick="window.location.href='/main/create'" class="pizza-item">
+      <img class="pizza-image" src="/img/pluspizza.png" alt="add-pizza">
+      <h3>CREATE PIZZA</h3>
+    </div>
+    <%end%>
 </div>
+

@@ -1,0 +1,33 @@
+<div class="pizza-show">
+
+<img class="pizza-image" src="/img/<%=@pizza["name"]%>.jpg" alt="Pepperoni pizza">
+
+
+  <h2><%= @pizza['name'] %></h2>
+
+  <p><%= @pizza['toppings'] %></p>
+
+  <h3>$<%= @pizza['price'] %></h3>
+    <%if @logged_in%>
+  <div class="purchase-bar"> 
+    <div class="qty-controls">
+      <button class="qty-btn">−</button>
+      <div class="qty">0</div>
+      <button class="qty-btn">+</button>
+    </div>
+
+    <button class="add-btn">Add</button>
+  </div>
+    <%end%>
+
+  <form action="/pizza/<%= @pizza['id'] %>/edit" method="get">
+    <button class="deleteuser">Edit pizza</button>
+  </form>
+  
+  <form action="/pizza/<%= @pizza['id'] %>/delete" method="post">
+    <button class="deleteuser">Delete pizza</button>
+  </form>
+
+
+
+</div>

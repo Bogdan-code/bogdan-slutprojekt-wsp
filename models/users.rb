@@ -25,4 +25,11 @@ class User
       ["#{username}_userid", username, encrypted]
     )
   end
+
+  def self.delete(id)
+    DB.execute(
+      "DELETE FROM users WHERE id=?",
+      id
+    )
+  end
 end
