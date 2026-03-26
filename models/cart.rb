@@ -1,4 +1,4 @@
-require relative '../db'
+require_relative '../db'
 
 class Cart
   def self.all(userid)
@@ -22,14 +22,12 @@ class Cart
         [userid, pizzaid, amount]
       )
     end
+  end
+  def self.remove_from_cart(userid, pizzaid)
+    DB.execute("DELETE FROM pizza_cart WHERE userid=? AND pizzaid=?", [userid, pizzaid])
+  end
 
-    def self.remove_from_cart(userid, pizzaid)
-      DB.execute("DELETE FROM pizza_cart WHERE userid=? AND pizzaid=?", [userid, pizzaid])
-    end
-
-    def self.clear_cart(userid)
-      DB.execute("DELETE FROM pizza_cart WHERE userid=?", [userid])
-    end
-  
+  def self.clear_cart(userid)
+    DB.execute("DELETE FROM pizza_cart WHERE userid=?", [userid])
   end
 end

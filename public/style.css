@@ -178,3 +178,57 @@ nav a{
   .pizza-main { grid-template-columns: 1fr; }
   .pizza-image { height: 200px; }
 }
+
+.purchase-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #f6f7f9;
+  border: 1px solid #ececf0;
+  width: 100%;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.qty-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  border: 1px solid #dcdce3;
+  background: #fff;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.qty-input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  border: 1px solid #999;
+  background: #fff;
+}
+
+.add-btn {
+  border: none;
+  background: #2f7d32;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 80px;
+}

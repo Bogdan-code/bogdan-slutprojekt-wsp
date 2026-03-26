@@ -4,18 +4,22 @@
   <div class="pizza-item">
     <img onclick="window.location.href='/index/<%=pizza["id"]%>'" class="pizza-image" src="/img/<%=pizza["name"]%>.jpg" alt="Pepperoni pizza">
     <h3><a href="/index/<%=pizza["id"]%>"><%=pizza["name"]%></a></h3>
-    <span class="price">$<%=pizza["price"]%></span>
+    <span class="price"><%=pizza["price"]%>kr</span>
     <%if @logged_in%>
-    <div class="purchase-bar">
+
+    <form action="/cart/add" method="post" class="purchase-bar cart-form">
+      <input type="hidden" name="pizza_id" value="<%= pizza["id"] %>">
+      
       <div class="qty-controls">
-        <button class="qty-btn" type="button">−</button>
-        <div class="qty">0</div>
-        <button class="qty-btn" type="button">+</button>
+        <button class="qty-btn" type="button" data-action="minus">−</button>
+        <input type="number" class="qty-input" name="amount" value="1" min="1" readonly>
+        <button class="qty-btn" type="button" data-action="plus">+</button>
       </div>
-      <button class="add-btn" type="button">Add</button>
-    </div>
+      <button class="add-btn" type="submit">Add</button>
+    </form>
+
     <%end%>
-    </div>
+  </div>
   <%end%>
     <%if @isadmin%>
     <div onclick="window.location.href='/main/create'" class="pizza-item">

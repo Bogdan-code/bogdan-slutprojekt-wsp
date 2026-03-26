@@ -1,0 +1,22 @@
+
+
+<div class="cart-page">
+    <h1>Varukorg</h1>
+    <% if @cart_items.empty? %>
+    <p>Din varukorg är tom.</p>
+    <% end %>
+
+    <div class="pizza-main">
+    <% @cart_items.each do |item| %>
+    <div class="pizza-item">
+        <img class="pizza-image" src="/img/<%=@pizzas[item["pizzaid"]]["name"]%>.jpg" alt="<%=item["name"]%>">
+        <h3><%= @pizzas[item["pizzaid"]]["name"] %></h3>
+        <span class="price"><%= @pizzas[item["pizzaid"]]["price"] %>kr</span>
+        <span class="amount">Antal: <%= item["amount"] %></span>
+        <form action="/cart/remove" method="post">
+            <input type="hidden" name="pizza_id" value="<%=item["pizzaid"] %>">
+            <button  type="submit">Ta bort</button>
+        </form>
+    </div>
+    <% end %>
+</div>

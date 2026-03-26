@@ -56,7 +56,7 @@ def self.create_tables
     CREATE TABLE pizza_cart(
       userid TEXT NOT NULL,
       pizzaid INTEGER NOT NULL,
-      amount INTEGER NOT NULL,
+      amount INTEGER NOT NULL DEFAULT 1,
       PRIMARY KEY(userid, pizzaid)
     )
   SQL
@@ -69,14 +69,7 @@ def self.create_tables
     )
   SQL
 
-  db.execute <<~SQL
-    CREATE TABLE order_items(
-      order_id INTEGER NOT NULL,
-      pizzaid INTEGER NOT NULL,
-      amount INTEGER NOT NULL,
-      price_each INTEGER NOT NULL
-    )
-  SQL
+  
 end
 
   def self.populate_pizzas

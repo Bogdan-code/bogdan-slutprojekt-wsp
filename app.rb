@@ -7,6 +7,7 @@ require 'fiddle'
 require_relative 'db'
 require_relative 'models/pizza'
 require_relative 'models/users'
+require_relative 'models/cart'
 
 class App < Sinatra::Base
 
@@ -119,6 +120,32 @@ class App < Sinatra::Base
     get "/index/:id" do |id|
       @pizza = Pizza.find(id)
       erb(:"/main/show")
+    end
+
+    get "/main/cart" do
+      redirect "/user/login" unless @logged_in
+      @pizzas = {}
+      Pizza.all.each do |pizza|
+        @pizzas[pizza["id"]] = pizza
+      end
+      @cart_items = Cart.all(session[:user_id])
+      erb(:"/main/cart")
+    end
+
+    post "/cart/add" do
+      redirect "/user/login" unless @logged_in
+      pizza_id = params["pizza_id"]
+      amount = params["amount"].to_i
+      amount = 1 if amount < 1
+      Cart.add_to_cart(session[:user_id], params["pizza_id"], params["amount"].to_i)
+      redirect "/main/cart"
+    end
+
+    post "/cart/remove" do
+      redirect "/user/login" unless @logged_in
+      p params["pizza_id"]
+      Cart.remove_from_cart(session[:user_id], params["pizza_id"])
+      redirect "/main/cart"
     end
 
 

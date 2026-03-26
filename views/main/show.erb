@@ -7,7 +7,7 @@
 
   <p><%= @pizza['toppings'] %></p>
 
-  <h3>$<%= @pizza['price'] %></h3>
+  <h3><%= @pizza['price'] %>kr</h3>
     <%if @logged_in%>
   <div class="purchase-bar"> 
     <div class="qty-controls">
@@ -19,15 +19,14 @@
     <button class="add-btn">Add</button>
   </div>
     <%end%>
-
+  <% if @isadmin %>
   <form action="/pizza/<%= @pizza['id'] %>/edit" method="get">
     <button class="deleteuser">Edit pizza</button>
   </form>
-  
-  <form action="/pizza/<%= @pizza['id'] %>/delete" method="post">
+    <form action="/pizza/<%= @pizza['id'] %>/delete" method="post">
     <button class="deleteuser">Delete pizza</button>
   </form>
-
+  <% end %>
 
 
 </div>

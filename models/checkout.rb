@@ -1,4 +1,4 @@
-require relative '../db'
+require_relative '../db'
 
 class Checkout
   def self.checkout(userid)
