@@ -82,23 +82,24 @@ class App < Sinatra::Base
     post '/user/login' do
       if login_locked?
         @error = "Vänta #{session[:login_locked_until] - Time.now.to_i} sekunder innan du försöker igen."
+        return erb(:"user/login")
       end
       user = User.find_by_username(params["username"])
-      redirect "/user/login" unless user
-      ap user
+
       if params[:username] == "admin" && BCrypt::Password.new(user["password"]) == params["password"]
         session[:admin] = true
       end
-      if BCrypt::Password.new(user["password"]) == params["password"]
+      if user && BCrypt::Password.new(user["password"]) == params["password"]
         session[:user_id] = user["id"]
         session[:login_attempts] = 0
         session[:login_locked_until] = nil
         redirect "/"
       else
+        p session[:login_attempts]
         session[:login_attempts] ||= 0
         session[:login_attempts] += 1
         if session[:login_attempts] >= 3
-          session[:login_locked_until] = Time.now.to_i + 30
+          session[:login_locked_until] = Time.now.to_i + 3
           session[:login_attempts] = 0
           @error = "För många försök. Vänta 30 sekunder."
         else
