@@ -8,6 +8,8 @@ require_relative 'db'
 require_relative 'models/pizza'
 require_relative 'models/users'
 require_relative 'models/cart'
+require_relative 'models/checkout'
+
 
 class App < Sinatra::Base
 
@@ -99,37 +101,38 @@ class App < Sinatra::Base
       redirect('/')
     end
 
-    get "/main/create" do
-      erb(:"/main/create")
+    get "/pizzas/create" do
+      erb(:"/pizzas/create")
     end
 
-    post "/main/create" do
+    post "/pizzas/create" do
       Pizza.create(params["name"], params["price"], params["toppings"], params["picture"])
       redirect "/main"
     end
 
-    get "/pizza/:id/edit" do |id|
+    get "/pizzas/:id/edit" do |id|
       @pizza = Pizza.find(id)
-      erb(:"/main/edit")
+      erb(:"/pizzas/edit")
     end
 
-    post "/pizza/:id/edit" do |id|
+    post "/pizzas/:id/edit" do |id|
       Pizza.update(id, params["name"], params["price"], params["toppings"], params["picture"])
-      redirect "/index/#{id}"
-    end
-    get "/index/:id" do |id|
-      @pizza = Pizza.find(id)
-      erb(:"/main/show")
+      redirect "/pizzas/#{id}"
     end
 
-    get "/main/cart" do
+    get "/pizzas/:id" do |id|
+      @pizza = Pizza.find(id)
+      erb(:"/pizzas/show")
+    end
+
+    get "/checkout/cart" do
       redirect "/user/login" unless @logged_in
       @pizzas = {}
       Pizza.all.each do |pizza|
         @pizzas[pizza["id"]] = pizza
       end
       @cart_items = Cart.all(session[:user_id])
-      erb(:"/main/cart")
+      erb(:"/checkout/cart")
     end
 
     post "/cart/add" do
@@ -138,14 +141,27 @@ class App < Sinatra::Base
       amount = params["amount"].to_i
       amount = 1 if amount < 1
       Cart.add_to_cart(session[:user_id], params["pizza_id"], params["amount"].to_i)
-      redirect "/main/cart"
+      redirect "/checkout/cart"
     end
 
     post "/cart/remove" do
       redirect "/user/login" unless @logged_in
       p params["pizza_id"]
       Cart.remove_from_cart(session[:user_id], params["pizza_id"])
-      redirect "/main/cart"
+      redirect "/checkout/cart"
+    end
+
+    get "/checkout/orders" do
+      redirect "/user/login" unless @logged_in
+      @all_orders = ::Checkout.all()
+      @orders = ::Checkout.orders(session[:user_id])
+      erb(:"/checkout/orders")
+    end
+
+    get "/checkout" do
+      redirect "/user/login" unless @logged_in
+      ::Checkout.checkout(session[:user_id])
+      redirect "/checkout/orders"
     end
 
 

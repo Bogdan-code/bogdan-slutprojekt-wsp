@@ -9,11 +9,11 @@ class Seeder
     puts "Using db file: #{DB_PATH}"
     puts "🧹 Resetting db file..."
     drop_tables
-
     reset_db_file
 
     puts "🧱 Creating tables..."
     create_tables
+
     puts "✅ Done seeding the database!"
     populate_pizzas
   end
@@ -25,7 +25,7 @@ class Seeder
     FileUtils.mkdir_p(File.dirname(DB_PATH))
   end
 
-    def self.drop_tables
+  def self.drop_tables
     db.execute('DROP TABLE IF EXISTS users')
     db.execute('DROP TABLE IF EXISTS pizzas')
     db.execute('DROP TABLE IF EXISTS pizza_cart')
@@ -33,44 +33,42 @@ class Seeder
     db.execute('DROP TABLE IF EXISTS order_items')
   end
 
-def self.create_tables
-  db.execute <<~SQL
-    CREATE TABLE users(
-      id TEXT PRIMARY KEY,
-      name TEXT NOT NULL,
-      password TEXT NOT NULL
-    )
-  SQL
+  def self.create_tables
+    db.execute <<~SQL
+      CREATE TABLE users(
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        password TEXT NOT NULL
+      )
+    SQL
 
-  db.execute <<~SQL
-    CREATE TABLE pizzas(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      price INTEGER NOT NULL,
-      toppings TEXT,
-      picture TEXT
-    )
-  SQL
+    db.execute <<~SQL
+      CREATE TABLE pizzas(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        price INTEGER NOT NULL,
+        toppings TEXT,
+        picture TEXT
+      )
+    SQL
 
-  db.execute <<~SQL
-    CREATE TABLE pizza_cart(
-      userid TEXT NOT NULL,
-      pizzaid INTEGER NOT NULL,
-      amount INTEGER NOT NULL DEFAULT 1,
-      PRIMARY KEY(userid, pizzaid)
-    )
-  SQL
+    db.execute <<~SQL
+      CREATE TABLE pizza_cart(
+        userid TEXT NOT NULL,
+        pizzaid INTEGER NOT NULL,
+        amount INTEGER NOT NULL DEFAULT 1,
+        PRIMARY KEY(userid, pizzaid)
+      )
+    SQL
 
-  db.execute <<~SQL
-    CREATE TABLE orders(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      userid TEXT NOT NULL,
-      created_at TEXT NOT NULL
-    )
-  SQL
-
-  
-end
+    db.execute <<~SQL
+      CREATE TABLE orders(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userid TEXT NOT NULL,
+        order_date TEXT NOT NULL
+      )
+    SQL
+  end
 
   def self.populate_pizzas
     pizzas = [
@@ -93,6 +91,7 @@ end
 
   def self.db
     return @db if @db
+
     @db = SQLite3::Database.new(DB_PATH)
     @db.results_as_hash = true
     @db

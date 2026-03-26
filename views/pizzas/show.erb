@@ -9,15 +9,16 @@
 
   <h3><%= @pizza['price'] %>kr</h3>
     <%if @logged_in%>
-  <div class="purchase-bar"> 
-    <div class="qty-controls">
-      <button class="qty-btn">−</button>
-      <div class="qty">0</div>
-      <button class="qty-btn">+</button>
-    </div>
-
-    <button class="add-btn">Add</button>
-  </div>
+      <form action="/cart/add" method="post" class="purchase-bar cart-form">
+      <input type="hidden" name="pizza_id" value="<%= @pizza["id"] %>">
+      
+      <div class="qty-controls">
+        <button class="qty-btn" type="button" data-action="minus">−</button>
+        <input type="number" class="qty-input" name="amount" value="1" min="1" readonly>
+        <button class="qty-btn" type="button" data-action="plus">+</button>
+      </div>
+      <button class="add-btn" type="submit">Add</button>
+    </form>
     <%end%>
   <% if @isadmin %>
   <form action="/pizza/<%= @pizza['id'] %>/edit" method="get">
