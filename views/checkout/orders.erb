@@ -1,6 +1,9 @@
 <h1>Ordrar</h1>
+<% if @orders.empty? %>
+    <p>Du har inga ordrar.</p>
+<% end %>
 
-<%if @isadmin%>
+<% if @isadmin %>
     <table>
         <tr>
             <th>Order ID</th>
@@ -16,4 +19,17 @@
         <% end %>
 
 
+<%else%>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Date</th>
+        </tr>
+        <% @orders.each do |order| %>
+            <tr>
+                <td><%= order['id'] %></td>
+                <td><%= order['order_date'] %></td>
+            </tr>
+        <% end %>
+    </table>
 <%end%>

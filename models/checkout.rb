@@ -19,7 +19,7 @@ class Checkout
     cart.each do |item|
       DB.execute(
         "INSERT INTO order_items (orderid, pizzaid, amount) VALUES (?, ?, ?)",
-        order_id, item["pizzaid"], item["amount"]
+        [order_id, item["pizzaid"], item["amount"]]
       )
     end
 
