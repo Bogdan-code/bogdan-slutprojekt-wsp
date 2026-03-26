@@ -30,6 +30,11 @@ class App < Sinatra::Base
       enable :sessions
       set :session_secret, SecureRandom.hex(64)
     end
+    helpers do
+      def login_locked?
+        session[:login_locked_until] && Time.now.to_i < session[:login_locked_until]
+      end
+    end
 
     def real_user_id?
       return false unless session[:user_id]
@@ -75,6 +80,9 @@ class App < Sinatra::Base
     end
 
     post '/user/login' do
+      if login_locked?
+        @error = "Vänta #{session[:login_locked_until] - Time.now.to_i} sekunder innan du försöker igen."
+      end
       user = User.find_by_username(params["username"])
       redirect "/user/login" unless user
       ap user
@@ -83,9 +91,20 @@ class App < Sinatra::Base
       end
       if BCrypt::Password.new(user["password"]) == params["password"]
         session[:user_id] = user["id"]
+        session[:login_attempts] = 0
+        session[:login_locked_until] = nil
         redirect "/"
       else
-        redirect "/user/login"
+        session[:login_attempts] ||= 0
+        session[:login_attempts] += 1
+        if session[:login_attempts] >= 3
+          session[:login_locked_until] = Time.now.to_i + 30
+          session[:login_attempts] = 0
+          @error = "För många försök. Vänta 30 sekunder."
+        else
+          @error = "Felaktigt användarnamn eller lösenord. Försök igen." 
+        end
+        erb(:"user/login")
       end
 
     end

@@ -65,7 +65,18 @@ class Seeder
       CREATE TABLE orders(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         userid TEXT NOT NULL,
-        order_date TEXT NOT NULL
+        order_date TEXT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      )
+    SQL
+    db.execute <<~SQL
+      CREATE TABLE order_items (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER NOT NULL,
+        product_id INTEGER NOT NULL,
+        quantity INTEGER NOT NULL,
+        FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+        FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
       )
     SQL
   end

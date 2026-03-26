@@ -1,5 +1,9 @@
 <h1>Login Page</h1>
 
+<% if @error %>
+  <p><%= @error %></p>
+<% end %>
+
 <form action="/user/login" method="post">
     <label>Namn <input type="text" name="username" required></label>
     <label>Lösenord <input type="password" name="password" required></label>
