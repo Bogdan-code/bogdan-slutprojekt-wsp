@@ -101,7 +101,7 @@ class App < Sinatra::Base
         if session[:login_attempts] >= 3
           session[:login_locked_until] = Time.now.to_i + 3
           session[:login_attempts] = 0
-          @error = "För många försök. Vänta 30 sekunder."
+          @error = "För många försök. Vänta 5 sekunder."
         else
           @error = "Felaktigt användarnamn eller lösenord. Försök igen." 
         end
