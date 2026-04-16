@@ -165,7 +165,7 @@ class App < Sinatra::Base
   #   Tar bort den inloggade användaren och rensar sessionen.
   #   @return [void]
   get "/deleteuser" do
-    redirect "/user/login" unless @logged_in && @isadmin
+    redirect "/user/login" unless @logged_in
 
     User.delete(session[:user_id])
     session.clear
