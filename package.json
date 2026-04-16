@@ -1,0 +1,27 @@
+{
+  "name": "bogdan-slutprojekt-wsp",
+  "version": "1.0.0",
+  "description": "Enskillt slutprojekt under hela vårterminen 2025 i kursen Webbserverprogrammering 1 på NTI Johanneberg.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bogdan-code/bogdan-slutprojekt-wsp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Bogdan-code/bogdan-slutprojekt-wsp/issues"
+  },
+  "homepage": "https://github.com/Bogdan-code/bogdan-slutprojekt-wsp#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}

@@ -165,6 +165,8 @@ class App < Sinatra::Base
   #   Tar bort den inloggade användaren och rensar sessionen.
   #   @return [void]
   get "/deleteuser" do
+    redirect "/user/login" unless @logged_in && @isadmin
+
     User.delete(session[:user_id])
     session.clear
     redirect('/')
@@ -175,6 +177,8 @@ class App < Sinatra::Base
   #   Visar formuläret för att skapa en ny pizza.
   #   @return [String] renderad ERB-sida
   get "/pizzas/create" do
+    redirect "/user/login" unless @logged_in && @isadmin
+
     erb(:"/pizzas/create")
   end
 
@@ -183,6 +187,7 @@ class App < Sinatra::Base
   #   Skapar en ny pizza och omdirigerar till huvudsidan.
   #   @return [void]
   post "/pizzas/create" do
+    redirect "/user/login" unless @logged_in && @isadmin
     Pizza.create(params["name"], params["price"], params["toppings"], params["picture"])
     redirect "/main"
   end
@@ -193,6 +198,8 @@ class App < Sinatra::Base
   #   @param id [String] pizzans id
   #   @return [String] renderad ERB-sida
   get "/pizzas/:id/edit" do |id|
+    redirect "/user/login" unless @logged_in && @isadmin
+
     @pizza = Pizza.find(id)
     erb(:"/pizzas/edit")
   end
@@ -203,6 +210,8 @@ class App < Sinatra::Base
   #   @param id [String] pizzans id
   #   @return [void]
   post "/pizzas/:id/edit" do |id|
+    redirect "/user/login" unless @logged_in && @isadmin
+
     Pizza.update(id, params["name"], params["price"], params["toppings"], params["picture"])
     redirect "/pizzas/#{id}"
   end
